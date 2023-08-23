@@ -1,24 +1,11 @@
-import { Paper, Space, Title, createStyles } from "@mantine/core";
-import axios from "axios";
-import { useEffect, useState } from "react";
+import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Paper, createStyles } from "@mantine/core";
+import { useContext, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { UsersContext } from "../contexts/UsersContext";
 
 const useStyles = createStyles((theme) => ({
-  container: {
-    boxSizing: "border-box",
-    minHeight: "100vh",
-    display: "flex",
-    flexFlow: "column nowrap",
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: theme.colors.gray[0],
-    padding: "50px 0"
-  },
-  title: {
-    marginTop: "0",
-    marginBottom: theme.spacing.lg
-  },
-  paper: {
-  },
   table: {
     display: "block",
     width: "min(80vw, 1000px)",
@@ -37,12 +24,10 @@ const useStyles = createStyles((theme) => ({
     },
     "th, td": {
       padding: theme.spacing.xs,
-      // whiteSpace: "nowrap",
       width: "fit-content",
-      hyphens: "auto",
       overflowWrap: "break-word",
       [theme.fn.smallerThan("sm")]: {
-        maxWidth: "100px"
+        maxWidth: "120px"
       }
     },
     
@@ -53,22 +38,25 @@ const useStyles = createStyles((theme) => ({
     display: "block",
     objectFit: "cover",
     borderRadius: "20%"
+  },
+  mods: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    gap: theme.spacing.sm
+  },
+  modBtn: {
+    backgroundColor: "transparent",
+    border: "none",
+    outline: "none",
+    padding: "0",
+    cursor: "pointer"
   }
 }));
 
 export default function UserTable() {
   const { classes } = useStyles();
-  const [ users, setUsers ] = useState([]);
-
-  useEffect(() => {
-    axios.get("http://localhost:5000/api/bog/users")
-    .then((response) => {
-      setUsers(response.data);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-  }, []);
+  const { users } = useContext(UsersContext);
 
   // useEffect(() => {
   //   axios.get("http://localhost:5000/api/bog/users/" + id)
@@ -81,48 +69,57 @@ export default function UserTable() {
   //   });
   // }, [users]);
 
-
   return (
-    <div className={classes.container}>
-      <Title order={1} className={classes.title}>Volunteers</Title>
-      <Paper shadow="md" p="sm" className={classes.paper}>
-        <table className={classes.table}>
-          <thead>
-            <tr>
-              <th>Volunteer</th>
-              <th>Picture</th>
-              <th>Phone</th>
-              <th>Email</th>
-              <th>Rating</th>
-              <th>Status</th>
-              <th>Project</th>
+    <Paper shadow="md" p="sm">
+      <table className={classes.table}>
+        <thead>
+          <tr>
+            <th>Volunteer</th>
+            <th>Picture</th>
+            <th>Phone</th>
+            <th>Email</th>
+            <th>Rating</th>
+            <th>Status</th>
+            <th>Project</th>
+            <th>Modify</th>
+          </tr>
+        </thead>
+        <tbody>
+          {users.map((user) => (
+            <tr key={user.name}>
+              <td>{user.name}</td>
+              <td>
+                <img
+                    src={user.avatar}
+                    alt={user.name} 
+                    className={classes.pic}
+                />
+              </td>
+              <td>{user.phone}</td>
+              <td>{user.email}</td>
+              <td>{user.rating}</td>
+              {user.status ? (
+                <td style={{ color: "green" }}>Active</td>
+              ) : (
+                <td style={{ color: "red" }}>Inactive</td>
+              )}
+              <td>{user.hero_project}</td>
+              <td>
+                <div className={classes.mods}>
+                  <button className={classes.modBtn}>
+                    <Link to={`/edit/${user.id}`} style={{ color: "inherit" }}>
+                      <FontAwesomeIcon icon={faEdit} />
+                    </Link>
+                  </button>
+                  <button className={classes.modBtn}>
+                    <FontAwesomeIcon icon={faTrash} />
+                  </button>
+                </div>
+              </td>
             </tr>
-          </thead>
-          <tbody>
-            {users.map((user) => (
-              <tr key={user.name}>
-                <td>{user.name}</td>
-                <td>
-                  <img
-                      src={user.avatar}
-                      alt={user.name} 
-                      className={classes.pic}
-                  />
-                </td>
-                <td>{user.phone}</td>
-                <td>{user.email}</td>
-                <td>{user.rating}</td>
-                {user.status ? (
-                  <td style={{ color: "green" }}>Active</td>
-                ) : (
-                  <td style={{ color: "red" }}>Inactive</td>
-                )}
-                <td>{user.hero_project}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </Paper>
-    </div>
+          ))}
+        </tbody>
+      </table>
+    </Paper>
   );
 }

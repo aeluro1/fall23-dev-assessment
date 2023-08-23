@@ -1,11 +1,15 @@
 {
   "dependencies": {
     "@emotion/react": "^11.11.1",
+    "@fortawesome/fontawesome-svg-core": "^6.4.2",
+    "@fortawesome/free-solid-svg-icons": "^6.4.2",
+    "@fortawesome/react-fontawesome": "^0.2.0",
     "@mantine/core": "^6.0.19",
     "@mantine/hooks": "^6.0.19",
     "axios": "^1.4.0",
     "concurrently": "^8.2.0",
-    "cors": "^2.8.5"
+    "cors": "^2.8.5",
+    "react-router-dom": "^6.15.0"
   },
   "scripts": {
     "postinstall": "concurrently yarn:postinstall:*",
