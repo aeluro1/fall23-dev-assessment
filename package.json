@@ -1,6 +1,11 @@
 {
   "dependencies": {
-    "concurrently": "^8.2.0"
+    "@emotion/react": "^11.11.1",
+    "@mantine/core": "^6.0.19",
+    "@mantine/hooks": "^6.0.19",
+    "axios": "^1.4.0",
+    "concurrently": "^8.2.0",
+    "cors": "^2.8.5"
   },
   "scripts": {
     "postinstall": "concurrently yarn:postinstall:*",
