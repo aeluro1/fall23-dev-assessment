@@ -56,7 +56,11 @@ const useStyles = createStyles((theme) => ({
 
 export default function UserTable() {
   const { classes } = useStyles();
-  const { users } = useContext(UsersContext);
+  const { users, delUser } = useContext(UsersContext);
+
+  const delUserHandler = (id) => {
+    delUser(id);
+  }
 
   // useEffect(() => {
   //   axios.get("http://localhost:5000/api/bog/users/" + id)
@@ -111,7 +115,7 @@ export default function UserTable() {
                       <FontAwesomeIcon icon={faEdit} />
                     </Link>
                   </button>
-                  <button className={classes.modBtn}>
+                  <button onClick={() => delUserHandler(user.id)} className={classes.modBtn}>
                     <FontAwesomeIcon icon={faTrash} />
                   </button>
                 </div>

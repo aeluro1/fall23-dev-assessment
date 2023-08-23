@@ -6,6 +6,10 @@ export const UsersContext = createContext();
 export default function UsersContextProvider(props) {
   const [ users, setUsers ] = useState([]);
 
+  const delUser = (id) => {
+    setUsers(users.filter((user) => user.id !== id));
+  }
+
   useEffect(() => {
     axios.get("http://localhost:5000/api/bog/users")
     .then((response) => {
@@ -17,7 +21,7 @@ export default function UsersContextProvider(props) {
   }, []);
 
   return (
-    <UsersContext.Provider value={{ users }}>
+    <UsersContext.Provider value={{ users, delUser }}>
       {props.children}
     </UsersContext.Provider>
   );
