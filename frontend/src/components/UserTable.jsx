@@ -35,7 +35,6 @@ const useStyles = createStyles((theme) => ({
   pic: {
     width: "50px",
     height: "50px",
-    display: "block",
     objectFit: "cover",
     borderRadius: "20%"
   },
