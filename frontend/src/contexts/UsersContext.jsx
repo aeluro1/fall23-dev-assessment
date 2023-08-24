@@ -10,6 +10,10 @@ export default function UsersContextProvider(props) {
     setUsers(users.filter((user) => user.id !== id));
   }
 
+  const editUser = (id, newUser) => {
+    setUsers(users.map((user) => user.id === id ? newUser : user));
+  }
+
   useEffect(() => {
     axios.get("http://localhost:5000/api/bog/users")
     .then((response) => {
@@ -21,7 +25,7 @@ export default function UsersContextProvider(props) {
   }, []);
 
   return (
-    <UsersContext.Provider value={{ users, delUser }}>
+    <UsersContext.Provider value={{ users, delUser, editUser }}>
       {props.children}
     </UsersContext.Provider>
   );

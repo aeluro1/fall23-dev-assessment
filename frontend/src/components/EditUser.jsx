@@ -1,7 +1,9 @@
 import { Button, Checkbox, Paper, TextInput, createStyles } from "@mantine/core";
+import { useForm } from "@mantine/form";
 import axios from "axios";
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { UsersContext } from "../contexts/UsersContext";
 
 const useStyles = createStyles((theme) => ({
   form: {
@@ -46,20 +48,53 @@ export default function EditUser() {
   const { classes } = useStyles();
   const { id } = useParams();
   const [ user, setUser ] = useState({});
+  const { editUser } = useContext(UsersContext);
+  const form = useForm({
+    initialValues: {
+      name: "",
+      phone: "",
+      email: "",
+      rating: "",
+      hero_project: "",
+      status: 0
+    }
+  });
+  const navigate = useNavigate();
+
+  const formHandler = (vals) => {
+    editUser(id, {
+      ...user,
+      ...vals
+    });
+    navigate("/");
+  };
   
   useEffect(() => {
     axios.get(`http://localhost:5000/api/bog/users/${id}`)
     .then(response => {
-      setUser(response.data)
+      const data = response.data
+      form.setValues({
+        name: data.name,
+        phone: data.phone,
+        email: data.email,
+        rating: data.rating,
+        hero_project: data.hero_project,
+        status: data.status
+      })
+      setUser(data)
     })
     .catch((error) => {
       console.log(error);
     });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   return (
     <Paper shadow="md" p="sm">
-      <div className={classes.form}>
+      <form
+        onSubmit={form.onSubmit((vals) => formHandler(vals))}
+        className={classes.form}
+      >
         <div className={classes.pic}>
           <img src={user.avatar} alt={user.name} className={classes.pic} />
         </div>
@@ -67,35 +102,35 @@ export default function EditUser() {
           <div className={classes.fields}>
             <TextInput
               label="Name"
-              value={user.name}
+              {...form.getInputProps("name")}
             />
             <TextInput
               label="Phone"
-              value={user.phone}
+              {...form.getInputProps("phone")}
             />
             <TextInput
               label="Email"
-              value={user.email}
+              {...form.getInputProps("email")}
             />
             <TextInput
               label="Rating"
-              value={user.rating}
+              {...form.getInputProps("rating")}
             />
             <TextInput
               label="Project"
+              {...form.getInputProps("hero_project")}
             />
-
           </div>
           <div className={classes.submit}>
             <Checkbox
                 label="Active"
                 labelPosition="left"
-                checked={user.status}
+                {...form.getInputProps("status", { type: "checkbox" })}
               />
-              <Button>OK</Button>
+              <Button type="submit">OK</Button>
           </div>
         </div>
-      </div>
+      </form>
     </Paper>
   );
 }
