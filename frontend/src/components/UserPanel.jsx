@@ -1,4 +1,4 @@
-import { Button, Checkbox, Paper, TextInput, createStyles } from "@mantine/core";
+import { Button, Checkbox, Image, Paper, TextInput, createStyles } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -12,10 +12,6 @@ const useStyles = createStyles((theme) => ({
     alignItems: "center"
   },
   pic: {
-    width: "100px",
-    height: "100px",
-    objectFit: "cover",
-    borderRadius: "20%",
     alignSelf: "start"
   },
   inputs: {
@@ -55,14 +51,16 @@ export default function UserPanel({ onSubmit, initUser }) {
     }
   });
   useEffect(() => {
-    form.setValues({
-      name: initUser.name,
-      phone: initUser.phone,
-      email: initUser.email,
-      rating: initUser.rating,
-      hero_project: initUser.hero_project,
-      status: initUser.status
-    });
+    if (initUser) {
+      form.setValues({
+        name: initUser.name,
+        phone: initUser.phone,
+        email: initUser.email,
+        rating: initUser.rating,
+        hero_project: initUser.hero_project,
+        status: initUser.status
+      });
+    }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initUser]);
   const navigate = useNavigate();
@@ -79,11 +77,16 @@ export default function UserPanel({ onSubmit, initUser }) {
         className={classes.form}
       >
         <div className={classes.pic}>
-          {initUser.avatar ? (
-            <img src={initUser.avatar} alt={initUser.name} className={classes.pic} />
-          ) : (
-            <img src="" alt="Placeholder" />
-          )}
+          <Image
+            src={initUser ? initUser.avatar : ""}
+            alt={initUser ? initUser.name : "Placeholder"}
+            width={100}
+            height={100}
+            radius="md"
+            m="auto"
+            fit="contain"
+            withPlaceholder={!initUser}
+          />
         </div>
         <div className={classes.inputs}>
           <div className={classes.fields}>

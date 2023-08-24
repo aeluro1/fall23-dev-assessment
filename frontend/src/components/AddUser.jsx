@@ -17,7 +17,6 @@ export default function AddUser() {
   return (
     <UserPanel
       onSubmit={formHandler}
-      initUser={{}}
     />
   );
 }

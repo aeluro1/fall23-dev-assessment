@@ -1,6 +1,6 @@
 import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Button, Paper, createStyles } from "@mantine/core";
+import { Button, Image, Paper, createStyles } from "@mantine/core";
 import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { UsersContext } from "../contexts/UsersContext";
@@ -38,7 +38,6 @@ const useStyles = createStyles((theme) => ({
         maxWidth: "120px"
       }
     },
-    
   },
   pic: {
     width: "50px",
@@ -92,10 +91,15 @@ export default function UserTable() {
                 <tr key={user.name}>
                   <td>{user.name}</td>
                   <td>
-                    <img
-                        src={user.avatar}
-                        alt={user.name}
-                        className={classes.pic}
+                    <Image
+                      src={user.avatar}
+                      alt={user.name}
+                      width={50}
+                      height={50}
+                      radius="md"
+                      m="auto"
+                      fit="contain"
+                      withPlaceholder={!user.avatar}
                     />
                   </td>
                   <td>{user.phone}</td>
