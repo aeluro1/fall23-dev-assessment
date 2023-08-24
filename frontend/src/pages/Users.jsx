@@ -3,18 +3,17 @@ import { Outlet } from "react-router-dom";
 
 const useStyles = createStyles((theme) => ({
   container: {
-    boxSizing: "border-box",
     minHeight: "100vh",
     display: "flex",
     flexFlow: "column nowrap",
-    justifyContent: "center",
+    justifyContent: "start",
     alignItems: "center",
+    gap: theme.spacing.lg,
     backgroundColor: theme.colors.gray[0],
     padding: "50px 0"
   },
   title: {
-    marginTop: "0",
-    marginBottom: theme.spacing.lg
+    margin: "0",
   }
 }));
 

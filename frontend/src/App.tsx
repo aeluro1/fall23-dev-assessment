@@ -5,6 +5,7 @@ import Users from './pages/Users';
 import UserTable from './components/UserTable';
 import EditUser from './components/EditUser';
 import UsersContextProvider from './contexts/UsersContext';
+import AddUser from './components/AddUser';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
             <Route path="/" element={<Users />}>
               <Route index element={<UserTable />} />
               <Route path="edit/:id" element={<EditUser />} />
+              <Route path="add" element={<AddUser />} />
             </Route>
           </Routes>
         </BrowserRouter>

@@ -10,7 +10,8 @@
     "axios": "^1.4.0",
     "concurrently": "^8.2.0",
     "cors": "^2.8.5",
-    "react-router-dom": "^6.15.0"
+    "react-router-dom": "^6.15.0",
+    "uuid": "^9.0.0"
   },
   "scripts": {
     "postinstall": "concurrently yarn:postinstall:*",
