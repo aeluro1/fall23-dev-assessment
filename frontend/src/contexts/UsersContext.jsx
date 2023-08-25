@@ -8,27 +8,48 @@ export default function UsersContextProvider(props) {
   const [ users, setUsers ] = useState([]);
 
   const delUser = (id) => {
-    setUsers(users.filter((user) => user.id !== id));
+    const newUsers = users.filter((user) => user.id !== id);
+    axios.delete(`http://localhost:5000/api/bog/users/${id}`)
+    .then((res) => {
+      setUsers(newUsers);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
   };
 
   const editUser = (id, newUser) => {
-    setUsers(users.map((user) => user.id === id ? newUser : user));
+    const newUsers = users.map((user) => user.id === id ? newUser : user);
+    axios.put(`http://localhost:5000/api/bog/users/${id}`, newUser)
+    .then((res) => {
+      setUsers(newUsers);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
   };
 
   const addUser = (newUser) => {
-    setUsers([
+    const newUsers = [
       ...users,
       {
         ...newUser,
         id: uuidv4()
       }
-    ]);
+    ];
+    axios.post(`http://localhost:5000/api/bog/users`, newUser)
+    .then((res) => {
+      setUsers(newUsers);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
   };
 
   useEffect(() => {
     axios.get("http://localhost:5000/api/bog/users")
-    .then((response) => {
-      setUsers(response.data);
+    .then((res) => {
+      setUsers(res.data);
     })
     .catch((error) => {
       console.log(error);
