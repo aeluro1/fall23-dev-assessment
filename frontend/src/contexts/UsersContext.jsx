@@ -30,12 +30,10 @@ export default function UsersContextProvider(props) {
   };
 
   const addUser = (newUser) => {
+    newUser.id = uuidv4()
     const newUsers = [
       ...users,
-      {
-        ...newUser,
-        id: uuidv4()
-      }
+      newUser
     ];
     axios.post(`http://localhost:5000/api/bog/users`, newUser)
     .then((res) => {
