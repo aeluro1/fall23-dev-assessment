@@ -65,12 +65,8 @@ const useStyles = createStyles((theme) => ({
 
 export default function UserTable() {
   const { classes } = useStyles();
-  const { users, delUser } = useContext(UsersContext);
+  const { users, delUser, incView } = useContext(UsersContext);
   const [page, setPage] = useState(1);
-
-  const delUserHandler = (id) => {
-    delUser(id);
-  };
 
   return (
     <div className={classes.container}>
@@ -117,7 +113,7 @@ export default function UserTable() {
                   <td>{user.hero_project}</td>
                   <td>
                     <div className={classes.mods}>
-                      <button>
+                      <button onClick={() => incView(user.id)}>
                         <Link to={`/view/${user.id}`} target="_blank" rel="noopener noreferrer">
                           <FontAwesomeIcon icon={faEye} />
                         </Link>
@@ -127,7 +123,7 @@ export default function UserTable() {
                           <FontAwesomeIcon icon={faEdit} />
                         </Link>
                       </button>
-                      <button onClick={() => delUserHandler(user.id)}>
+                      <button onClick={() => delUser(user.id)}>
                         <FontAwesomeIcon icon={faTrash} />
                       </button>
                     </div>

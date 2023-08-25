@@ -1,7 +1,8 @@
-import { Button, Checkbox, Image, Paper, TextInput, Textarea, createStyles } from "@mantine/core";
+import { Button, Checkbox, Image, Paper, Text, TextInput, Textarea, createStyles } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import { useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { UsersContext } from "../contexts/UsersContext";
 
 const useStyles = createStyles((theme) => ({
   form: {
@@ -11,10 +12,13 @@ const useStyles = createStyles((theme) => ({
     justifyContent: "center",
     alignItems: "center"
   },
-  pic: {
-    alignSelf: "start"
+  formLeft: {
+    alignSelf: "start",
+    display: "flex",
+    flexFlow: "column nowrap",
+    gap: theme.spacing.xs
   },
-  inputs: {
+  formRight: {
     flexGrow: "1",
     display: "flex",
     flexFlow: "column nowrap",
@@ -41,7 +45,7 @@ const useStyles = createStyles((theme) => ({
   }
 }));
 
-export default function UserPanel({ onSubmit, initUser, edit }) {
+export default function UserPanel({ onSubmit, id, edit }) {
   const { classes } = useStyles();
   const form = useForm({
     initialValues: {
@@ -54,20 +58,24 @@ export default function UserPanel({ onSubmit, initUser, edit }) {
       notes: ""
     }
   });
+  const { users } = useContext(UsersContext);
+  const [ user, setUser ] = useState({});
   useEffect(() => {
-    if (initUser) {
+    if (id) {
+      const user = users.find((user) => user.id === id);
       form.setValues({
-        name: initUser.name,
-        phone: initUser.phone,
-        email: initUser.email,
-        rating: initUser.rating,
-        hero_project: initUser.hero_project,
-        status: initUser.status,
-        notes: initUser.notes
+        name: user.name,
+        phone: user.phone,
+        email: user.email,
+        rating: user.rating,
+        hero_project: user.hero_project,
+        status: user.status,
+        notes: user.notes
       });
+      setUser(user);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [initUser]);
+  }, [id]);
   const navigate = useNavigate();
 
   const formHandler = (vals) => {
@@ -81,19 +89,24 @@ export default function UserPanel({ onSubmit, initUser, edit }) {
         onSubmit={form.onSubmit((vals) => formHandler(vals))}
         className={classes.form}
       >
-        <div className={classes.pic}>
+        <div className={classes.formLeft}>
           <Image
-            src={initUser ? initUser.avatar : ""}
-            alt={initUser ? initUser.name : "Placeholder"}
+            src={id ? user.avatar : ""}
+            alt={id ? user.name : "Placeholder"}
             width={100}
             height={100}
             radius="md"
             m="auto"
             fit="contain"
-            withPlaceholder={!initUser}
+            withPlaceholder={!id}
           />
+          {!edit ? (
+            <Text fz="sm">Visits: {user.views}</Text>
+          ) : (
+            null
+          )}
         </div>
-        <div className={classes.inputs}>
+        <div className={classes.formRight}>
           <div className={classes.fields}>
             <TextInput
               label="Name"
@@ -142,7 +155,6 @@ export default function UserPanel({ onSubmit, initUser, edit }) {
               ) : (
                 null
               )}
-              
           </div>
         </div>
       </form>

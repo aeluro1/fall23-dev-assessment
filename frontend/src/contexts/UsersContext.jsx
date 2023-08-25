@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 export const UsersContext = createContext();
 
 export default function UsersContextProvider(props) {
-  const [ users, setUsers ] = useState([]);
+  const [ users, setUsers ] = useState(JSON.parse(localStorage.getItem("users")) || []);
 
   const delUser = (id) => {
     const newUsers = users.filter((user) => user.id !== id);
@@ -44,6 +44,15 @@ export default function UsersContextProvider(props) {
     });
   };
 
+  const incView = (id) => {
+    for (const user of users) {
+      if (user.id === id) {
+        user.views = user.views ? user.views + 1 : 1;
+      }
+    }
+    setUsers(users);
+  }
+
   useEffect(() => {
     axios.get("http://localhost:5000/api/bog/users")
     .then((res) => {
@@ -54,8 +63,12 @@ export default function UsersContextProvider(props) {
     });
   }, []);
 
+  useEffect(() => {
+    localStorage.setItem("users", JSON.stringify(users));
+  }, [users]);
+
   return (
-    <UsersContext.Provider value={{ users, delUser, editUser, addUser }}>
+    <UsersContext.Provider value={{ users, delUser, editUser, addUser, incView }}>
       {props.children}
     </UsersContext.Provider>
   );
