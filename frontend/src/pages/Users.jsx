@@ -20,6 +20,10 @@ const useStyles = createStyles((theme) => ({
   }
 }));
 
+/**
+ * Component for page displaying users
+ * @returns Component for page displaying users
+ */
 export default function Users() {
   const { classes } = useStyles();
   const isAdmin = useMatch("/admin");

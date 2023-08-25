@@ -2,6 +2,10 @@ import { useContext } from "react";
 import UserPanel from "./UserPanel";
 import { UsersContext } from "../contexts/UsersContext";
 
+/**
+ * Component for user creation form
+ * @returns Component for user creation form
+ */
 export default function AddUser() {
   const { addUser } = useContext(UsersContext);
 

@@ -45,6 +45,11 @@ const useStyles = createStyles((theme) => ({
   }
 }));
 
+/**
+ * Component for displaying and editing user information
+ * @param {*} props
+ * @returns Component for displaying and editing user information
+ */
 export default function UserPanel({ onSubmit, id, edit }) {
   const { classes } = useStyles();
   const form = useForm({
@@ -58,6 +63,8 @@ export default function UserPanel({ onSubmit, id, edit }) {
       notes: ""
     }
   });
+
+  // Fetch and display user data if an ID is provided
   const { users } = useContext(UsersContext);
   const [ user, setUser ] = useState({});
   useEffect(() => {
@@ -77,8 +84,8 @@ export default function UserPanel({ onSubmit, id, edit }) {
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
+  
   const navigate = useNavigate();
-
   const formHandler = (vals) => {
     onSubmit(vals);
     navigate("/");

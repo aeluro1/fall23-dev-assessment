@@ -70,18 +70,24 @@ const useStyles = createStyles((theme) => ({
   }
 }));
 
+/**
+ * Component for displaying all users
+ * @returns Component for displaying all users
+ */
 export default function UserTable() {
   const { classes } = useStyles();
   const { users, delUser, incView } = useContext(UsersContext);
+
+  // Track pagination across sessions
   const [page, setPage] = useState(parseInt(localStorage.getItem("page")) || 1);
   const updatePage = (p) => {
     setPage(p);
     localStorage.setItem("page", p.toString());
   }
 
+  // Filter/sort list of users if required
   const [ sortProj, setSortProj ] = useState(false);
   const [ filter, setFilter ] = useState("");
-
   let filtered = users;
   if (sortProj) {
     filtered = filtered.toSorted((a, b) => a.hero_project > b.hero_project ? 1 : -1);
@@ -90,6 +96,7 @@ export default function UserTable() {
     filtered = filtered.filter((user) => user.hero_project.includes(filter));
   }
 
+  // Check if route has admin permissions
   const isAdmin = useMatch("/admin");
 
   return (

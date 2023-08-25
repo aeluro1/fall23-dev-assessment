@@ -21,7 +21,9 @@ app.get('/api/bog/users/:id', (req, res) => {
     res.status(200).json(user);
 });
 
-// For post/put/delete requests, just overwrite database.js
+/**
+ * Helper function to overwrite database.js for post/put/delete requests
+ */
 function saveDB() {
   const db = "export const database = " + JSON.stringify(database, null, 4) + ";";
   fs.writeFile("./database.js", db, (err) => {
@@ -35,7 +37,11 @@ function saveDB() {
   });
 }
 
+/**
+ * Handles POST add requests
+ */
 app.post("/api/bog/users", (req, res) => {
+  // Respond with an error if the ID does not exist
   if (database.some((user) => user.id === req.body.id)) {
     res.status(400).json(database.filter((user) => user.id === req.body.id)[0]);
   } else {
@@ -49,11 +55,17 @@ app.post("/api/bog/users", (req, res) => {
   }
 });
 
+/**
+ * Handles PUT update requests
+ */
 app.put("/api/bog/users/:id", (req, res) => {
+  // Create a new user, replacing the request body's ID with the endpoint ID as a sanity check
   const newUser = {
     ...req.body,
     id: req.params.id
   }
+
+  // Respond with an error if the ID exists in the database
   if (database.every((user) => user.id !== req.params.id)) {
     res.status(400).json(newUser);
   } else {
@@ -71,7 +83,11 @@ app.put("/api/bog/users/:id", (req, res) => {
   }
 });
 
+/**
+ * Handles DELETE requests
+ */
 app.delete("/api/bog/users/:id", (req, res) => {
+  // Respond with an error if the ID does not exist in the database
   if (database.every((user) => user.id !== req.params.id)) {
     res.status(400).json(req.body);
   } else {
