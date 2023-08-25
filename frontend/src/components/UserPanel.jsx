@@ -63,6 +63,7 @@ export default function UserPanel({ onSubmit, id, edit }) {
   useEffect(() => {
     if (id) {
       const user = users.find((user) => user.id === id);
+      console.log({ user });
       form.setValues({
         name: user.name,
         phone: user.phone,

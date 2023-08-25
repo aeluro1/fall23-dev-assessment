@@ -66,7 +66,11 @@ const useStyles = createStyles((theme) => ({
 export default function UserTable() {
   const { classes } = useStyles();
   const { users, delUser, incView } = useContext(UsersContext);
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(parseInt(localStorage.getItem("page")) || 1);
+  const updatePage = (p) => {
+    setPage(p);
+    localStorage.setItem("page", p.toString());
+  }
 
   return (
     <div className={classes.container}>
@@ -136,7 +140,7 @@ export default function UserTable() {
       </Paper>
       <Pagination
         value={page}
-        onChange={setPage}
+        onChange={updatePage}
         total={Math.ceil(users.length / 10)}
       />
     </div>

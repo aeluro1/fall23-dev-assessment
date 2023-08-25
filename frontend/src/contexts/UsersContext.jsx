@@ -45,12 +45,14 @@ export default function UsersContextProvider(props) {
   };
 
   const incView = (id) => {
-    for (const user of users) {
-      if (user.id === id) {
-        user.views = user.views ? user.views + 1 : 1;
+    setUsers(users.map((user) => user.id === id ? (
+      {
+        ...user,
+        views: user.views ? user.views + 1 : 1
       }
-    }
-    setUsers(users);
+    ) : (
+      user
+    )));
   }
 
   useEffect(() => {
