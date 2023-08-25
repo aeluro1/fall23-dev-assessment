@@ -1,5 +1,38 @@
 export const database = [
     {
+        "name": "Luis Schiller",
+        "avatar": "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/1115.jpg",
+        "hero_project": "pixel",
+        "notes": "Architect orange",
+        "email": "Margarett.Bergstrom46@gmail.com",
+        "phone": "433-919-8878 x93604",
+        "rating": "8",
+        "status": false,
+        "id": "1"
+    },
+    {
+        "name": "Lois Schuppe",
+        "avatar": "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/1237.jpg",
+        "hero_project": "feed",
+        "notes": "wholly Bronze",
+        "email": "Herman.Kautzer90@gmail.com",
+        "phone": "492.839.7782 x477",
+        "rating": "9",
+        "status": false,
+        "id": "2"
+    },
+    {
+        "name": "Tamara Farrell",
+        "avatar": "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/141.jpg",
+        "hero_project": "array",
+        "notes": "indexing Customer Program",
+        "email": "Phoebe92@gmail.com",
+        "phone": "(951) 250-4878 x19972",
+        "rating": "7",
+        "status": false,
+        "id": "3"
+    },
+    {
         "name": "Dominick Okuneva",
         "avatar": "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/601.jpg",
         "hero_project": "alarm",
@@ -7,7 +40,7 @@ export const database = [
         "email": "Lourdes.Dach54@gmail.com",
         "phone": "1-867-944-7692 x9895",
         "rating": "7",
-        "status": true,
+        "status": false,
         "id": "4"
     },
     {
