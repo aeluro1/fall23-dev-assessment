@@ -2,7 +2,7 @@ import { faEdit, faEye, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button, Checkbox, Image, Pagination, Paper, TextInput, createStyles } from "@mantine/core";
 import { useContext, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useMatch } from "react-router-dom";
 import { UsersContext } from "../contexts/UsersContext";
 
 const useStyles = createStyles((theme) => ({
@@ -90,9 +90,11 @@ export default function UserTable() {
     filtered = filtered.filter((user) => user.hero_project.includes(filter));
   }
 
+  const isAdmin = useMatch("/admin");
+
   return (
     <div className={classes.container}>
-      <Link to="/add"><Button>Add User</Button></Link>
+      <Link to="add"><Button>Add User</Button></Link>
       <div className={classes.filters}>
         <Checkbox
           label="Sort projects"
@@ -117,7 +119,7 @@ export default function UserTable() {
                 <th>Rating</th>
                 <th>Status</th>
                 <th>Project</th>
-                <th>Modify</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -148,18 +150,24 @@ export default function UserTable() {
                   <td>
                     <div className={classes.mods}>
                       <button onClick={() => incView(user.id)}>
-                        <Link to={`/view/${user.id}`} target="_blank" rel="noopener noreferrer">
+                        <Link to={`view/${user.id}`} target="_blank" rel="noopener noreferrer">
                           <FontAwesomeIcon icon={faEye} />
                         </Link>
                       </button>
-                      <button>
-                        <Link to={`/edit/${user.id}`}>
-                          <FontAwesomeIcon icon={faEdit} />
-                        </Link>
-                      </button>
-                      <button onClick={() => delUser(user.id)}>
-                        <FontAwesomeIcon icon={faTrash} />
-                      </button>
+                      {isAdmin ? (
+                        <>
+                          <button>
+                            <Link to={`edit/${user.id}`}>
+                              <FontAwesomeIcon icon={faEdit} />
+                            </Link>
+                          </button>
+                          <button onClick={() => delUser(user.id)}>
+                            <FontAwesomeIcon icon={faTrash} />
+                          </button>
+                        </>
+                      ) : (
+                        null
+                      )}
                     </div>
                   </td>
                 </tr>

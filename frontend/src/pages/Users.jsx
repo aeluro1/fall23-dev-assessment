@@ -1,5 +1,5 @@
 import { Title, createStyles } from "@mantine/core";
-import { Outlet } from "react-router-dom";
+import { Link, Outlet, useMatch } from "react-router-dom";
 
 const useStyles = createStyles((theme) => ({
   container: {
@@ -13,15 +13,26 @@ const useStyles = createStyles((theme) => ({
     padding: "50px 0"
   },
   title: {
-    margin: "0",
+    margin: "0"
+  },
+  link: {
+    textDecoration: "inherit"
   }
 }));
 
 export default function Users() {
   const { classes } = useStyles();
+  const isAdmin = useMatch("/admin");
+
   return (
     <div className={classes.container}>
-      <Title order={1} className={classes.title}>Volunteers</Title>
+      <Title order={1} className={classes.title}>
+        Volunteers (
+          <Link to={isAdmin ? "/viewer" : "/admin"} className={classes.link}>
+            {isAdmin ? "Admin" : "Viewer"}
+          </Link>
+        )
+      </Title>
       <Outlet />
     </div>
   );
