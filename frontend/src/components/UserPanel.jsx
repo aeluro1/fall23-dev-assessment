@@ -1,4 +1,4 @@
-import { Button, Checkbox, Image, Paper, TextInput, createStyles } from "@mantine/core";
+import { Button, Checkbox, Image, Paper, TextInput, Textarea, createStyles } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -35,10 +35,13 @@ const useStyles = createStyles((theme) => ({
     justifyContent: "center",
     alignItems: "center",
     marginTop: theme.spacing.lg
+  },
+  notes: {
+    gridColumn: "1 / -1"
   }
 }));
 
-export default function UserPanel({ onSubmit, initUser }) {
+export default function UserPanel({ onSubmit, initUser, edit }) {
   const { classes } = useStyles();
   const form = useForm({
     initialValues: {
@@ -47,7 +50,8 @@ export default function UserPanel({ onSubmit, initUser }) {
       email: "",
       rating: "",
       hero_project: "",
-      status: 0
+      status: 0,
+      notes: ""
     }
   });
   useEffect(() => {
@@ -58,7 +62,8 @@ export default function UserPanel({ onSubmit, initUser }) {
         email: initUser.email,
         rating: initUser.rating,
         hero_project: initUser.hero_project,
-        status: initUser.status
+        status: initUser.status,
+        notes: initUser.notes
       });
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -93,22 +98,36 @@ export default function UserPanel({ onSubmit, initUser }) {
             <TextInput
               label="Name"
               {...form.getInputProps("name")}
+              readOnly={!edit}
             />
             <TextInput
               label="Phone"
               {...form.getInputProps("phone")}
+              readOnly={!edit}
             />
             <TextInput
               label="Email"
               {...form.getInputProps("email")}
+              readOnly={!edit}
             />
             <TextInput
               label="Rating"
               {...form.getInputProps("rating")}
+              readOnly={!edit}
             />
             <TextInput
               label="Project"
               {...form.getInputProps("hero_project")}
+              readOnly={!edit}
+            />
+            <Textarea
+              label="Notes"
+              {...form.getInputProps("notes")}
+              autosize
+              minRows={2}
+              maxRows={5}
+              className={classes.notes}
+              readOnly={!edit}
             />
           </div>
           <div className={classes.submit}>
@@ -116,8 +135,14 @@ export default function UserPanel({ onSubmit, initUser }) {
                 label="Active"
                 labelPosition="left"
                 {...form.getInputProps("status", { type: "checkbox" })}
+                disabled={!edit}
               />
-              <Button type="submit">OK</Button>
+              {edit ? (
+                <Button type="submit">OK</Button>
+              ) : (
+                null
+              )}
+              
           </div>
         </div>
       </form>

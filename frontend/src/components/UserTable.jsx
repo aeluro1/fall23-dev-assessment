@@ -1,4 +1,4 @@
-import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faEdit, faEye, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button, Image, Pagination, Paper, createStyles } from "@mantine/core";
 import { useContext, useState } from "react";
@@ -49,14 +49,17 @@ const useStyles = createStyles((theme) => ({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    gap: theme.spacing.sm
-  },
-  modBtn: {
-    backgroundColor: "transparent",
-    border: "none",
-    outline: "none",
-    padding: "0",
-    cursor: "pointer"
+    gap: theme.spacing.sm,
+    "button": {
+      backgroundColor: "transparent",
+      border: "none",
+      outline: "none",
+      padding: "0",
+      cursor: "pointer"
+    },
+    "a": {
+      color: "inherit"
+    }
   }
 }));
 
@@ -114,12 +117,17 @@ export default function UserTable() {
                   <td>{user.hero_project}</td>
                   <td>
                     <div className={classes.mods}>
-                      <button className={classes.modBtn}>
-                        <Link to={`/edit/${user.id}`} style={{ color: "inherit" }}>
+                      <button>
+                        <Link to={`/view/${user.id}`} target="_blank" rel="noopener noreferrer">
+                          <FontAwesomeIcon icon={faEye} />
+                        </Link>
+                      </button>
+                      <button>
+                        <Link to={`/edit/${user.id}`}>
                           <FontAwesomeIcon icon={faEdit} />
                         </Link>
                       </button>
-                      <button onClick={() => delUserHandler(user.id)} className={classes.modBtn}>
+                      <button onClick={() => delUserHandler(user.id)}>
                         <FontAwesomeIcon icon={faTrash} />
                       </button>
                     </div>
