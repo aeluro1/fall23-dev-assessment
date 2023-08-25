@@ -101,7 +101,11 @@ export default function UserTable() {
 
   return (
     <div className={classes.container}>
-      <Link to="add"><Button>Add User</Button></Link>
+      {isAdmin ? (
+        <Link to="add"><Button>Add User</Button></Link>
+      ) : (
+        null
+      )}
       <div className={classes.filters}>
         <Checkbox
           label="Sort projects"
