@@ -89,11 +89,19 @@ export default function UserTable() {
   const [ sortProj, setSortProj ] = useState(false);
   const [ filter, setFilter ] = useState("");
   let filtered = users;
-  if (sortProj) {
-    filtered = filtered.toSorted((a, b) => a.hero_project > b.hero_project ? 1 : -1);
-  }
   if (filter !== "") {
     filtered = filtered.filter((user) => user.hero_project.includes(filter));
+  }
+  if (sortProj) {
+    filtered = filtered.toSorted((a, b) => {
+      if (a.hero_project > b.hero_project) {
+        return 1;
+      } else if (a.hero_project < b.hero_project) {
+        return -1;
+      } else {
+        return 0;
+      }
+    });
   }
 
   // Check if route has admin permissions
