@@ -146,16 +146,16 @@ export default function UserPanel({ onSubmit, id, edit }) {
           </div>
           <div className={classes.submit}>
             <Checkbox
-                label="Active"
-                labelPosition="left"
-                {...form.getInputProps("status", { type: "checkbox" })}
-                disabled={!edit}
-              />
-              {edit ? (
-                <Button type="submit">OK</Button>
-              ) : (
-                null
-              )}
+              label="Active"
+              labelPosition="left"
+              {...form.getInputProps("status", { type: "checkbox" })}
+              disabled={!edit}
+            />
+            {edit ? (
+              <Button type="submit">OK</Button>
+            ) : (
+              null
+            )}
           </div>
         </div>
       </form>

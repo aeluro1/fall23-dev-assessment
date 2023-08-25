@@ -1,6 +1,6 @@
 import { faEdit, faEye, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Button, Image, Pagination, Paper, createStyles } from "@mantine/core";
+import { Button, Checkbox, Image, Pagination, Paper, TextInput, createStyles } from "@mantine/core";
 import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { UsersContext } from "../contexts/UsersContext";
@@ -60,6 +60,13 @@ const useStyles = createStyles((theme) => ({
     "a": {
       color: "inherit"
     }
+  },
+  filters: {
+    display: "flex",
+    flexFlow: "row nowrap",
+    justifyContent: "center",
+    alignItems: "center",
+    gap: theme.spacing.md
   }
 }));
 
@@ -72,9 +79,32 @@ export default function UserTable() {
     localStorage.setItem("page", p.toString());
   }
 
+  const [ sortProj, setSortProj ] = useState(false);
+  const [ filter, setFilter ] = useState("");
+
+  let filtered = users;
+  if (sortProj) {
+    filtered = filtered.toSorted((a, b) => a.hero_project > b.hero_project ? 1 : -1);
+  }
+  if (filter !== "") {
+    filtered = filtered.filter((user) => user.hero_project.includes(filter));
+  }
+
   return (
     <div className={classes.container}>
       <Link to="/add"><Button>Add User</Button></Link>
+      <div className={classes.filters}>
+        <Checkbox
+          label="Sort projects"
+          labelPosition="left"
+          onChange={(e) => setSortProj(e.currentTarget.checked)}
+        />
+        <TextInput
+          placeholder="Filter projects"
+          value={filter}
+          onChange={(e) => setFilter(e.currentTarget.value)}
+        />
+      </div>
       <Paper shadow="md" p="sm">
         <div className={classes.tableContainer}>
           <table className={classes.table}>
@@ -91,7 +121,7 @@ export default function UserTable() {
               </tr>
             </thead>
             <tbody>
-              {users.slice((page - 1) * 10, page * 10).map((user) => (
+              {filtered.slice((page - 1) * 10, page * 10).map((user) => (
                 <tr key={user.name}>
                   <td>{user.name}</td>
                   <td>
