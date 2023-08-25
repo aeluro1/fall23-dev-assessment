@@ -190,7 +190,7 @@ export default function UserTable() {
       <Pagination
         value={page}
         onChange={updatePage}
-        total={Math.ceil(users.length / 10)}
+        total={Math.ceil(filtered.length / 10)}
       />
     </div>
   );

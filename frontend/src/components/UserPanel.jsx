@@ -16,6 +16,7 @@ const useStyles = createStyles((theme) => ({
     alignSelf: "start",
     display: "flex",
     flexFlow: "column nowrap",
+    alignItems: "center",
     gap: theme.spacing.xs
   },
   formRight: {
