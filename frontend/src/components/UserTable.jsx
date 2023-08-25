@@ -1,7 +1,7 @@
 import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Button, Image, Paper, createStyles } from "@mantine/core";
-import { useContext } from "react";
+import { Button, Image, Pagination, Paper, createStyles } from "@mantine/core";
+import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { UsersContext } from "../contexts/UsersContext";
 
@@ -63,6 +63,7 @@ const useStyles = createStyles((theme) => ({
 export default function UserTable() {
   const { classes } = useStyles();
   const { users, delUser } = useContext(UsersContext);
+  const [page, setPage] = useState(1);
 
   const delUserHandler = (id) => {
     delUser(id);
@@ -87,7 +88,7 @@ export default function UserTable() {
               </tr>
             </thead>
             <tbody>
-              {users.map((user) => (
+              {users.slice((page - 1) * 10, page * 10).map((user) => (
                 <tr key={user.name}>
                   <td>{user.name}</td>
                   <td>
@@ -129,6 +130,11 @@ export default function UserTable() {
           </table>
         </div>
       </Paper>
+      <Pagination
+        value={page}
+        onChange={setPage}
+        total={Math.ceil(users.length / 10)}
+      />
     </div>
   );
 }
