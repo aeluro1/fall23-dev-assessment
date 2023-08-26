@@ -1,7 +1,7 @@
 import { faEdit, faEye, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button, Checkbox, Image, Pagination, Paper, TextInput, createStyles } from "@mantine/core";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link, useMatch } from "react-router-dom";
 import { UsersContext } from "../contexts/UsersContext";
 
@@ -103,6 +103,13 @@ export default function UserTable() {
       }
     });
   }
+
+  // If filtering, reset page to 1 to avoid invalid pages
+  useEffect(() => {
+    if (filter !== "") {
+      updatePage(1);
+    }
+  }, [filter]);
 
   // Check if route has admin permissions
   const isAdmin = useMatch("/admin/*");
