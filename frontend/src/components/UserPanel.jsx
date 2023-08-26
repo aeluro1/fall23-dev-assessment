@@ -106,7 +106,7 @@ export default function UserPanel({ onSubmit, id, edit }) {
             radius="md"
             m="auto"
             fit="contain"
-            withPlaceholder={!id}
+            withPlaceholder={!id || !user.avatar}
           />
           {!edit ? (
             <Text fz="sm">Visits: {user.views}</Text>
