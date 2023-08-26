@@ -26,7 +26,7 @@ const useStyles = createStyles((theme) => ({
  */
 export default function Users() {
   const { classes } = useStyles();
-  const isAdmin = useMatch("/admin");
+  const isAdmin = useMatch("/admin/*");
 
   return (
     <div className={classes.container}>
