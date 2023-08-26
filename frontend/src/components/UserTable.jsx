@@ -111,6 +111,12 @@ export default function UserTable() {
     }
   }, [filter]);
 
+  // Clamp page number if user is deleted
+  const delHandler = (id) => {
+    delUser(id);
+    updatePage(Math.min(page, Math.ceil((filtered.length - 1) / 10)));
+  };
+
   // Check if route has admin permissions
   const isAdmin = useMatch("/admin/*");
 
@@ -187,7 +193,7 @@ export default function UserTable() {
                               <FontAwesomeIcon icon={faEdit} />
                             </Link>
                           </button>
-                          <button onClick={() => delUser(user.id)}>
+                          <button onClick={() => delHandler(user.id)}>
                             <FontAwesomeIcon icon={faTrash} />
                           </button>
                         </>
